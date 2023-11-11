@@ -1,3 +1,47 @@
+const ac=document.querySelector('.clearAll');
+const clean=document.querySelector('.clear');
+const decimal=document.querySelector('.decimal');
+const equal=document.querySelector('.equal');
+const result=document.querySelector('.result');
+const current=document.querySelector('.current');
+
+let first="", operator, second="";
+
+ac.addEventListener('click',()=>{
+    result.innerHTML="";
+    current.innerHTML="";
+    first="";
+    second="";
+    operator=undefined;
+});
+
+clean.addEventListener('click', ()=>{
+    current.innerHTML=current.innerHTML.slice(0, -1);
+    if(second=="" && operator!=undefined) {{
+        operator=undefined;
+        return;
+    }}
+    if(operator==undefined){
+        first=first.slice(0, -1);
+        console.log(first);
+        result.innerHTML="";
+        console.log(result.innerHTML);
+    }
+    else{
+        second=second.slice(0, -1);
+        console.log(second);
+        result.innerHTML=operate(Number(first), operator, Number(second));
+    }
+});
+
+equal.addEventListener('click', ()=>{
+    current.innerHTML=result.innerHTML;
+    result.innerHTML="";
+    first=current.innerHTML;
+    second="";
+    operator=undefined;
+});
+
 const add=function(first, second){
     return first + second;
 }
@@ -15,7 +59,7 @@ const divide=function(first, second){
 }
 
 
-let first, operator, second;
+
 
 function operate(first, operator, second){
     switch(operator){
@@ -30,25 +74,30 @@ function operate(first, operator, second){
     }
 }
 
-let display=operate(first, operator, second);
-
 const mainNum=document.querySelectorAll('.main-numbers');
 mainNum.forEach(each => {
     each.addEventListener('click', ()=>{
-        console.log(each.innerHTML);
-        if(!operator){
+        current.innerHTML+=each.innerHTML;
+        if(operator==undefined) first+=each.innerHTML;
+        else 
+        {
             second+=each.innerHTML;
-            
+            result.innerHTML=operate(Number(first), operator, Number(second));
         }
     });
 });
+
+
 
 const operators=document.querySelectorAll('.operators');
 operators.forEach(each=>{
     each.addEventListener('click', ()=>{
         operator=each.innerHTML;
+        current.innerHTML+=each.innerHTML;
     });
 });
+
+
 
 
 
